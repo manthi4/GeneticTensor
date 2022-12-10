@@ -13,6 +13,9 @@ class model(ABC):
     def spawn():
         return children
         pass
+    @abstractmethod
+    def params():
+        pass
     
 def spawner(p):
     ans = []
