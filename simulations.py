@@ -9,7 +9,7 @@ def check_convergence(prev_n):
 #     if fn([prev_5[0]]) == min(fn(prev_5)):
 #     print(prev_n)
     for f in prev_n:
-        if f != prev_n[0]:
+        if not np.array_equal(f, prev_n[0]):
             return False
     return True
     
@@ -33,8 +33,7 @@ def fixed_population_fixed_std(search_range, dim, p0_size, sigma, fn, max_genera
     t0 = time.time()
     population = np.array([[random.uniform(*search_range) for _ in range(dim)] for _ in range(p0_size)])
     for _ in range(max_generations):
-#         if len(pop_mean) > 10 and np.mean(pop_mean[-5:]) >= np.mean(pop_mean[-10:-5]):
-#             break
+
         if len(pop_mean) > 10 and check_convergence(pop_best[-7:]):
             break
 
@@ -74,8 +73,8 @@ def linear_population_fixed_std(search_range, dim, p0_size, keep_n, sigma, fn, m
     for _ in range(max_generations):
         if len(pop_mean) > 10 and check_convergence(pop_best[-7:]):
             break
-        if len(population) < 3:
-            break
+        # if len(population) < 3:
+        #     break
 #         print("bark")
         keep = keep_n(population)
 #         print("maki", keep)
@@ -111,8 +110,8 @@ def geom_population_fixed_std(search_range, dim, p0_size, keep_n, sigma, fn, max
     for _ in range(max_generations):
         if len(pop_mean) > 10 and check_convergence(pop_best[-7:]):
             break
-        if len(population) < 3:
-            break
+        # if len(population) < 3:
+        #     break
 
         keep = keep_n(population)
         num_children = 1
@@ -148,8 +147,8 @@ def fit_population_fixed_std(search_range, dim, p0_size, keep_n, sigma, fn, max_
     for _ in range(max_generations):
         if len(pop_mean) > 10 and check_convergence(pop_best[-7:]):
             break
-        if len(population) < 3:
-            break
+        # if len(population) < 3:
+        #     break
 #         print("bark")
 #         print(len(population), len(pop_best))
         keep = keep_n(population, pop_best)

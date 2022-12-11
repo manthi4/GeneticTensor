@@ -90,3 +90,9 @@ func_list = {
     "cosine"            : cosine,
     "local_minima"      : local_minima
 }
+min_list =  {
+    "parabola"          : 0,
+    "spikey_parabola"   : 0,
+    "cosine"            : float('inf'),
+    "local_minima"      : -75
+}
