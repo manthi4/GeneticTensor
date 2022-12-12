@@ -212,7 +212,7 @@ def fixed_population_linear_std(search_range, dim, p0_size, sigma, fn, max_gener
     return pop_mean, pop_std, pop_error, t
 
 
-def fixed_population_geom_std(search_range, dim, p0_size, sigma, fn, max_generations = 100):
+def fixed_population_geom_std(search_range, dim, p0_size, sigma, g, fn, max_generations = 100):
     pop_mean = []
     pop_error = []
     pop_std = []
@@ -225,7 +225,7 @@ def fixed_population_geom_std(search_range, dim, p0_size, sigma, fn, max_generat
 
         keep = len(population)//2
         num_children = 1
-        sigma = sigma*.9
+        sigma = sigma*g
         
         scored = [(fn(v), v) for v in population ]
         selected = sorted(scored)[:keep]
