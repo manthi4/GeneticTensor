@@ -1,7 +1,7 @@
 import time
 import random
 import numpy as np
-
+from operator import itemgetter, attrgetter
 
 ######### First some helper functions
 
@@ -40,7 +40,7 @@ def fixed_population_fixed_std(search_range, dim, p0_size, sigma, fn, max_genera
         keep = len(population)//2
         num_children = 1
         scored = [(fn(v), v) for v in population ]
-        selected = sorted(scored)[:keep]
+        selected = sorted(scored, key=itemgetter(0))[:keep]
         population = np.array([v for s,v in selected])
         
         pop_mean += [np.mean(population[:, 0])]
@@ -81,7 +81,7 @@ def linear_population_fixed_std(search_range, dim, p0_size, keep_n, sigma, fn, m
         num_children = 1
         
         scored = [(fn(v), v) for v in population ]
-        selected = sorted(scored)[:keep]
+        selected = sorted(scored, , key=itemgetter(0))[:keep]
         population = np.array([v for s,v in selected])
         
         pop_mean += [np.mean(population[:, 0])]
@@ -117,7 +117,7 @@ def geom_population_fixed_std(search_range, dim, p0_size, keep_n, sigma, fn, max
         num_children = 1
         
         scored = [(fn(v), v) for v in population ]
-        selected = sorted(scored)[:keep]
+        selected = sorted(scored, key=itemgetter(0))[:keep]
         population = np.array([v for s,v in selected])
         
         pop_mean += [np.mean(population[:, 0])]
@@ -156,7 +156,7 @@ def fit_population_fixed_std(search_range, dim, p0_size, keep_n, sigma, fn, max_
         num_children = 1
         
         scored = [(fn(v), v) for v in population ]
-        selected = sorted(scored)[:keep]
+        selected = sorted(scored, key=itemgetter(0))[:keep]
         population = np.array([v for s,v in selected])
         
         pop_mean += [np.mean(population[:, 0])]
@@ -192,7 +192,7 @@ def fixed_population_linear_std(search_range, dim, p0_size, sigma, b, fn, max_ge
         sigma = sigma -b
         
         scored = [(fn(v), v) for v in population ]
-        selected = sorted(scored)[:keep]
+        selected = sorted(scored, key=itemgetter(0))[:keep]
         population = np.array([v for s,v in selected])
         
         pop_mean += [np.mean(population[:, 0])]
@@ -228,7 +228,7 @@ def fixed_population_geom_std(search_range, dim, p0_size, sigma, g, fn, max_gene
         sigma = sigma*g
         
         scored = [(fn(v), v) for v in population ]
-        selected = sorted(scored)[:keep]
+        selected = sorted(scored, key=itemgetter(0))[:keep]
         population = np.array([v for s,v in selected])
         
         pop_mean += [np.mean(population[:, 0])]
