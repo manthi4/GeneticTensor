@@ -18,11 +18,15 @@ keep_n_geom = lambda pop: max(1, len(pop) //4)
 keep_n_linear = lambda pop: max(1, (len(pop)-5)//2)
 
 def keep_n_fit(pop, pop_best):
-    delta = 1
-    if len(pop_best) > 2:
-        delta = (pop_best[-1] -  pop_best[-2])/pop_best[-2]
-        delta = abs(delta)
-    return int(max(20, ((len(pop)*(1-delta))//2), (len(pop)//3)))
+    if len(pop_best) < 3:
+      return int(max(20,  (len(pop)//3)))
+
+    delta = np.linalg.norm((pop_best[-1] -  pop_best[-2]))/np.linalg.norm(pop_best[-2])
+    delta = abs(delta)
+    a1 =  (len(pop)*(1-delta))//2
+    a2 = (len(pop)//3)
+    m = max([20, a1, a2])
+    return int(m)
 
 
 def fixed_population_fixed_std(search_range, dim, p0_size, sigma, fn, max_generations = 100):
@@ -81,7 +85,7 @@ def linear_population_fixed_std(search_range, dim, p0_size, keep_n, sigma, fn, m
         num_children = 1
         
         scored = [(fn(v), v) for v in population ]
-        selected = sorted(scored, , key=itemgetter(0))[:keep]
+        selected = sorted(scored, key=itemgetter(0))[:keep]
         population = np.array([v for s,v in selected])
         
         pop_mean += [np.mean(population[:, 0])]
@@ -189,7 +193,7 @@ def fixed_population_linear_std(search_range, dim, p0_size, sigma, b, fn, max_ge
 
         keep = len(population)//2
         num_children = 1
-        sigma = sigma -b
+        sigma = max(1e-14, sigma -b)
         
         scored = [(fn(v), v) for v in population ]
         selected = sorted(scored, key=itemgetter(0))[:keep]
@@ -225,7 +229,7 @@ def fixed_population_geom_std(search_range, dim, p0_size, sigma, g, fn, max_gene
 
         keep = len(population)//2
         num_children = 1
-        sigma = sigma*g
+        sigma = max(1e-14, sigma*g)
         
         scored = [(fn(v), v) for v in population ]
         selected = sorted(scored, key=itemgetter(0))[:keep]
