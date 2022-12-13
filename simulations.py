@@ -176,7 +176,7 @@ def fit_population_fixed_std(search_range, dim, p0_size, keep_n, sigma, fn, max_
     return pop_mean, pop_std, pop_error, t
 
 
-def fixed_population_linear_std(search_range, dim, p0_size, sigma, fn, max_generations = 100):
+def fixed_population_linear_std(search_range, dim, p0_size, sigma, b, fn, max_generations = 100):
     pop_mean = []
     pop_error = []
     pop_std = []
@@ -189,7 +189,7 @@ def fixed_population_linear_std(search_range, dim, p0_size, sigma, fn, max_gener
 
         keep = len(population)//2
         num_children = 1
-        sigma = sigma -.1
+        sigma = sigma -b
         
         scored = [(fn(v), v) for v in population ]
         selected = sorted(scored)[:keep]
